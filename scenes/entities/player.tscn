@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://c6wdxraavl61y"]
+
+[ext_resource type="Texture2D" uid="uid://cjlhf86wtbxw3" path="res://assets/sprites/player.svg" id="1_16k11"]
+[ext_resource type="Script" uid="uid://bjd0p7owems7b" path="res://scenes/entities/player.gd" id="1_omvyu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_omvyu"]
+radius = 18.0
+height = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8o684"]
+radius = 30.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1883325256]
+script = ExtResource("1_omvyu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=132291163]
+shape = SubResource("CapsuleShape2D_omvyu")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1406876298]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_16k11")
+
+[node name="ContagionArea" type="Area2D" parent="." unique_id=1062507288]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContagionArea" unique_id=899915932]
+shape = SubResource("CircleShape2D_8o684")

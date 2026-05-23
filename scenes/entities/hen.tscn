@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://jrjiio0nkums"]
+
+[ext_resource type="Script" uid="uid://ovmbno7lwpvo" path="res://scenes/entities/hen.gd" id="1_i83nv"]
+[ext_resource type="Texture2D" uid="uid://dh3m6lyyihpr7" path="res://assets/sprites/hen.svg" id="2_ta8k2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t5707"]
+radius = 20.0
+
+[node name="Hen" type="Area2D" unique_id=1012292379]
+script = ExtResource("1_i83nv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=231296369]
+position = Vector2(117, 66)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_ta8k2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1661275915]
+position = Vector2(118, 69)
+shape = SubResource("CircleShape2D_t5707")

@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://db3x6hhv5s5yi"]
+
+[ext_resource type="Script" uid="uid://c1y81ttrmfsba" path="res://scenes/world/main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://c6wdxraavl61y" path="res://scenes/entities/player.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://c6y4jg43fuy1r" path="res://scripts/models/model3_disease.gd" id="3_f8fyy"]
+[ext_resource type="Script" uid="uid://wf5prflh3h6a" path="res://scripts/models/model4_queues.gd" id="4_wbupf"]
+
+[node name="Main" type="Node2D" unique_id=1355193245]
+script = ExtResource("1_ig7tw")
+
+[node name="Player" parent="." unique_id=1883325256 instance=ExtResource("2_0xm2m")]
+position = Vector2(460, 255)
+
+[node name="LabelInstruction" type="Label" parent="." unique_id=1465220750]
+offset_left = 23.0
+offset_top = 15.0
+offset_right = 355.0
+offset_bottom = 216.0
+theme_override_font_sizes/font_size = 22
+text = "Muévete con las flechas
+Tecla 1: Compra vacuna
+Tecla 2: Compra medicamentos
+Tecla 3: Avanza al siguiente dia
+Tecla 4: Compra gallinas
+Espacio: Iniciar juego"
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelDay" type="Label" parent="." unique_id=1240565066]
+visible = false
+offset_left = 84.0
+offset_top = 20.0
+offset_right = 158.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 22
+text = "Dia: 0"
+
+[node name="LabelBalance" type="Label" parent="." unique_id=537611450]
+visible = false
+offset_left = 183.0
+offset_top = 20.0
+offset_right = 311.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 22
+text = "Saldo: 0"
+
+[node name="LabelVaccines" type="Label" parent="." unique_id=616442839]
+visible = false
+offset_left = 583.0
+offset_top = 20.0
+offset_right = 696.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 22
+text = "Vacunas: 0"
+
+[node name="LabelMedications" type="Label" parent="." unique_id=945294560]
+visible = false
+offset_left = 366.0
+offset_top = 20.0
+offset_right = 547.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 22
+text = "Medicamentos: 0"
+
+[node name="LabelGameOver" type="Label" parent="." unique_id=324029225]
+offset_left = 219.0
+offset_top = 196.0
+offset_right = 677.0
+offset_bottom = 306.0
+theme_override_font_sizes/font_size = 80
+text = "GAME OVER"
+
+[node name="Model3Disease" type="Node" parent="." unique_id=1486568440]
+script = ExtResource("3_f8fyy")
+
+[node name="Model4Queues" type="Node" parent="." unique_id=939603791]
+script = ExtResource("4_wbupf")
