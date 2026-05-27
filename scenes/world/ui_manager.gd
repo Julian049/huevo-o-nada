@@ -30,15 +30,20 @@ func setup_running_ui() -> void:
 	$InventarioLabel.visible = true
 	$DeudaLabel.visible = true
 
-# Activa el cartel de fin de juego
+# Activa el cartel de fin de juego y el botón de reiniciar
 func show_game_over(mensaje: String = "GAME OVER") -> void:
 	label_game_over.text = mensaje
 	label_game_over.visible = true
+	$RestartButton.visible = true
+
+# Reinicia la escena completa
+func _on_restart_pressed() -> void:
+	get_tree().reload_current_scene()
 
 # Refresca los textos en pantalla con los datos actuales del jugador y el día
 func update_hud(day: int, player: Node) -> void:
 	if label_day: label_day.text = "Day: " + str(day)
-	if label_balance: label_balance.text = "Balance: $" + str(player.balance)
+	if label_balance: label_balance.visible = false  # Balance real está en BalanceLabel (Modelo 5)
 	if label_vaccines: label_vaccines.text = "Vacunas: " + str(player.vaccine_inventory)
 	if label_medications: label_medications.text = "Medicinas: " + str(player.medicine_inventory)
 

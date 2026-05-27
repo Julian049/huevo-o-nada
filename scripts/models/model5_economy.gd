@@ -24,8 +24,8 @@ const PRECIO_HUEVO_PASO := 50
 const COSTO_MAIZ_MIN    := 80
 const COSTO_MAIZ_MAX    := 200
 const COSTO_MAIZ_PASO   := 20
-const MULTA_MIN         := 500_000.0
-const MULTA_MAX         := 1_000_000.0
+const MULTA_MIN         := 100_000.0
+const MULTA_MAX         := 500_000.0
 
 const P_INSPECCION      := 0.15
 const P_OFERTA_VACUNAS  := 0.20
@@ -177,4 +177,12 @@ func _uniforme_discreta(minimo: int, maximo: int, paso: int) -> int:
 # UniformeContinua(a, b): valor real aleatorio en [a, b]
 # Fuente: sección 3.b.5.8 — "a + aleatorio() * (b-a)"
 func _uniforme_continua(minimo: float, maximo: float) -> float:
-	return minimo + randf() * (maximo - minimo)
+	return randf_range(minimo, maximo)
+
+# Intenta comprar algo y descuenta del balance real del Modelo 5
+func comprar_item(costo: float) -> bool:
+	if balance_caja >= costo:
+		balance_caja -= costo
+		emit_signal("balance_actualizado", balance_caja, acumulado_ventas)
+		return true
+	return false

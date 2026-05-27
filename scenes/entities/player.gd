@@ -6,7 +6,6 @@ extends CharacterBody2D
 
 const SPEED : float = 200.0
 
-var balance             : float = 1000.0
 var vaccine_inventory   : int   = 0
 var medicine_inventory  : int   = 0
 
@@ -19,19 +18,6 @@ func _physics_process(_delta: float) -> void:
 	# Limitar movimiento a los bordes de la pantalla
 	position.x = clamp(position.x, 20.0, 1132.0)
 	position.y = clamp(position.y, 20.0, 628.0)
-
-# Intenta comprar un item. Retorna true si tuvo dinero suficiente.
-func buy_item(cost: float, is_vaccine: bool) -> bool:
-	if balance >= cost:
-		balance -= cost
-		if is_vaccine:
-			vaccine_inventory += 1
-			print("Compre vacuna")
-		else:
-			medicine_inventory += 1
-			print("Compre medicamento")
-		return true
-	return false
 
 # Consume una vacuna si hay en el inventario
 func try_use_vaccine() -> bool:

@@ -52,14 +52,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
-			KEY_1: # Compra vacunas
-				if player.buy_item(50.0, true): ui_manager.update_hud(day, player)
-			KEY_2: # Compra medicinas
-				if player.buy_item(30.0, false): ui_manager.update_hud(day, player)
+			KEY_1: # Compra vacunas ($15.000 COP)
+				if model5_economy.comprar_item(15000.0):
+					player.vaccine_inventory += 1
+					ui_manager.update_hud(day, player)
+			KEY_2: # Compra medicinas ($8.000 COP)
+				if model5_economy.comprar_item(8000.0):
+					player.medicine_inventory += 1
+					ui_manager.update_hud(day, player)
 			KEY_3: # Avanza un día
 				_advance_day()
-			KEY_4: # Compra un nuevo lote de gallinas
-				hen_manager.spawn_purchased_batch(BATCH_SIZE, survival_model, disease_model, is_running)
+			KEY_4: # Compra un nuevo lote de 3 gallinas ($75.000 COP - a $25.000 c/u)
+				if model5_economy.comprar_item(75000.0):
+					hen_manager.spawn_purchased_batch(BATCH_SIZE, survival_model, disease_model, is_running)
 
 # Desbloquea el movimiento general y actualiza la interfaz para jugar
 func _start_game() -> void:
@@ -152,11 +157,11 @@ func _on_economy_game_over(tipo: String) -> void:
 		"VICTORIA":   ui_manager.show_game_over("¡Granja salvada! Deuda pagada.")
 		"EMBARGO":    ui_manager.show_game_over("El banquero ejecuto el embargo.")
 
-# Verifica si se alcanzó el límite de días o si murieron todas las gallinas
+# Verifica si murieron todas las gallinas (el límite de días lo maneja el Modelo 5)
 func _validate_game_over() -> void:
-	if day >= MAX_DAYS or hen_manager.are_all_hens_dead():
+	if hen_manager.are_all_hens_dead() and is_running:
 		is_running = false
-		ui_manager.show_game_over()
+		ui_manager.show_game_over("¡Todas tus gallinas murieron!")
 		hen_manager.set_hens_moving(false)
 		player.set_physics_process(false)
 		player.set_process(false)
