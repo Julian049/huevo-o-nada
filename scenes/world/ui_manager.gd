@@ -24,9 +24,15 @@ func setup_running_ui() -> void:
 	label_balance.visible = true
 	label_vaccines.visible = true
 	label_medications.visible = true
+	
+	# Mostrar UI del Modelo 5
+	$BalanceLabel.visible = true
+	$InventarioLabel.visible = true
+	$DeudaLabel.visible = true
 
 # Activa el cartel de fin de juego
-func show_game_over() -> void:
+func show_game_over(mensaje: String = "GAME OVER") -> void:
+	label_game_over.text = mensaje
 	label_game_over.visible = true
 
 # Refresca los textos en pantalla con los datos actuales del jugador y el día
@@ -35,3 +41,18 @@ func update_hud(day: int, player: Node) -> void:
 	if label_balance: label_balance.text = "Balance: $" + str(player.balance)
 	if label_vaccines: label_vaccines.text = "Vacunas: " + str(player.vaccine_inventory)
 	if label_medications: label_medications.text = "Medicinas: " + str(player.medicine_inventory)
+
+# --- FUNCIONES DEL MODELO 5 (ECONOMÍA) ---
+
+func update_economy(balance: float, inventario: int, deuda_restante: float) -> void:
+	# Asegúrate de que estos nodos Label existan en tu escena HUD
+	$BalanceLabel.text      = "$" + str(int(balance))
+	$InventarioLabel.text   = str(inventario) + " 🥚"
+	$DeudaLabel.text        = "Deuda: $" + str(int(deuda_restante))
+
+func show_event_banner(mensaje: String) -> void:
+	$EventBanner/Label.text = mensaje
+	$EventBanner.visible    = true
+	# Ocultar automáticamente después de 3 segundos
+	await get_tree().create_timer(3.0).timeout
+	$EventBanner.visible = false
