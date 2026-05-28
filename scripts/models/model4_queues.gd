@@ -1,6 +1,6 @@
 extends Node
 
-const MU_BASE : float = 15.0
+const MU_BASE : float = 25.0
 const SIGMA_BASE : float = 2.0
 const VACCINE_BONUS : float = 5.0
 const PENALTY_SICK : float = 2.0
@@ -54,6 +54,8 @@ func process_survival_queue(active_hens: Array) -> Array:
 
 		if was_sick:
 			hen.health -= PENALTY_SICK
+			
+		print("Gallina: ", hen.name, " | Edad: ", hen.age, " | Salud: ", hen.health, "/", hen.max_health)
 
 		# Marca a la gallina como muerta si se queda sin salud o alcanza su edad límite
 		if hen.health <= 0.0 or hen.age >= int(hen.max_health):

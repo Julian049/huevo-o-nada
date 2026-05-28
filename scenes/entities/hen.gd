@@ -11,7 +11,7 @@ var current_state : int = State.HEALTHY
 @onready var sprite = $AnimatedSprite2D
 
 # Atributos individuales — el Modelo 4 operará directamente sobre estos valores
-var health     : float
+var health     : int
 var max_health : float
 var age        : int   = 0
 var dead       : bool = false
