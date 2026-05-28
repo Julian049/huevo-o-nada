@@ -10,10 +10,30 @@ var balance             : float = 1000.0
 var vaccine_inventory   : int   = 0
 var medicine_inventory  : int   = 0
 
+@onready var sprite = $AnimatedSprite2D
+
 func _physics_process(_delta: float) -> void:
 	# Movimiento del jugador (WASD o Flechas)
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity = input_dir * SPEED
+	
+	if input_dir != Vector2.ZERO:
+		# Priorizar el movimiento horizontal si se presionan en diagonal
+		if abs(input_dir.x) > abs(input_dir.y): 
+			sprite.play("walk_side")
+			sprite.flip_h = input_dir.x < 0 # Voltea a la izquierda si es necesario
+			
+		# AQUÍ ESTÁ LA "S" O HACIA ABAJO: Y es mayor a 0
+		elif input_dir.y > 0: 
+			sprite.play("walk_front")
+			
+		# Si Y es menor a 0, va hacia arriba ("W")
+		else: 
+			sprite.play("walk_back")
+	else:
+		# Si no se presiona nada, se queda quieto
+		sprite.play("idle_front")
+		
 	move_and_slide()
 	
 	# Limitar movimiento a los bordes de la pantalla

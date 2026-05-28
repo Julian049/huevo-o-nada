@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh3m6lyyihpr7"
-path="res://.godot/imported/hen.svg-c3a0a1eb5c4307afcfba452eb8d5ab54.ctex"
+uid="uid://dccromixuubl"
+path="res://.godot/imported/b4.png-e7067144faf34e804f1f27e6b5ce0e77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/hen.svg"
-dest_files=["res://.godot/imported/hen.svg-c3a0a1eb5c4307afcfba452eb8d5ab54.ctex"]
+source_file="res://assets/sprites/player/b4.png"
+dest_files=["res://.godot/imported/b4.png-e7067144faf34e804f1f27e6b5ce0e77.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

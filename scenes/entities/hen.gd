@@ -8,6 +8,7 @@ class_name Hen
 enum State { HEALTHY, SICK, RECOVERED, DEAD }
 
 var current_state : int = State.HEALTHY
+@onready var sprite = $AnimatedSprite2D
 
 # Atributos individuales — el Modelo 4 operará directamente sobre estos valores
 var health     : float
@@ -25,10 +26,22 @@ func _ready() -> void:
 	_update_visuals()
 
 func _process(delta: float) -> void:
-	if not is_moving:
+	# Si no se está moviendo o está muerta, reproducir animación quieta y salir
+	if not is_moving or current_state == State.DEAD:
+		sprite.play("idle_front")
 		return
+		
+	# Aplicar movimiento
 	position += direction * speed * delta
 	_handle_screen_bounce()
+	
+	if abs(direction.x) > abs(direction.y):
+		sprite.play("walk_side")
+		sprite.flip_h = direction.x < 0
+	elif direction.y > 0:
+		sprite.play("walk_front")
+	else:
+		sprite.play("walk_back")
 
 # main.gd usa esta función para decirle a la gallina que se enfermó
 func set_state(new_state: int) -> void:

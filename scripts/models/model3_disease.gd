@@ -5,25 +5,28 @@ signal day_processed(report: Dictionary)
 var base_contagiousness : float
 var base_recovery_rate  : float
 var max_capacity        : float
+var crowding_sensitivity : float
+var environmental_viral_load : float
 
 var total_population : int
-var susceptible      : int
 var infected         : int
 var current_day      : int
 
 var acum_infections : float
 var acum_recoveries : float
+var acum_inflows  : float 
+var acum_outflows : float
 
 var penalty_health_base : float = 2.0 
 
 # Configura las estadísticas iniciales para simular el brote
-func initialize_model(p_total_pop: int, p_contagiousness: float, p_recovery: float, p_capacity: float) -> void:
+func initialize_model(p_total_pop: int, p_capacity: float) -> void:
 	total_population = p_total_pop
 	infected = 1
-	susceptible = p_total_pop - 1
 	
-	base_contagiousness = p_contagiousness
-	base_recovery_rate = p_recovery
+	base_contagiousness = 3
+	crowding_sensitivity = 0.35
+	base_recovery_rate = 0.05
 	max_capacity = p_capacity
 	
 	current_day = 0
@@ -34,24 +37,31 @@ func initialize_model(p_total_pop: int, p_contagiousness: float, p_recovery: flo
 func process_next_day(used_vaccine: bool, used_medicine: bool) -> void:
 	if total_population <= 0: return
 	
+	var susceptible : int = maxi(total_population - infected, 0)
 	var crowding_factor : float = float(total_population) / max_capacity
+	
+	environmental_viral_load += (crowding_factor * 0.05)
+	
+	if used_vaccine:
+		environmental_viral_load = maxf(0.0, environmental_viral_load - 0.15)
 	var effective_beta  : float = base_contagiousness * 0.15 if used_vaccine else base_contagiousness
 	var effective_gamma : float = base_recovery_rate + 0.70 if used_medicine else base_recovery_rate
 	
-	var flow_infections : float = effective_beta * crowding_factor * float(infected) * (float(susceptible) / float(total_population))
+
+	var flow_direct_infections : float = effective_beta * crowding_factor * float(infected) * (float(susceptible) / float(total_population))
+	var flow_environmental_infections : float = environmental_viral_load * float(susceptible) * 0.10
 	var flow_recoveries : float = effective_gamma * float(infected)
 	
-	# Guardamos los decimales para sumarlos en los días posteriores
-	acum_infections += flow_infections
-	acum_recoveries += flow_recoveries
+	var total_inflow = flow_direct_infections + flow_environmental_infections
+	acum_inflows += total_inflow
+	acum_outflows += flow_recoveries
 	
-	var new_infections : int = int(floor(acum_infections))
-	var new_recoveries : int = int(floor(acum_recoveries))
+	var new_infections : int = int(floor(acum_inflows))
+	var new_recoveries : int = int(floor(acum_outflows))
 	
-	acum_infections -= new_infections
-	acum_recoveries -= new_recoveries
-		
-	# Limitamos para evitar que haya más cambios que gallinas disponibles
+	acum_inflows -= new_infections
+	acum_outflows -= new_recoveries
+	
 	if new_infections > susceptible: new_infections = susceptible
 	if new_recoveries > infected: new_recoveries = infected
 	
@@ -66,6 +76,10 @@ func process_next_day(used_vaccine: bool, used_medicine: bool) -> void:
 		"S": susceptible,
 		"I": infected,
 		"N": total_population,
+		"carga_viral_ambiental": environmental_viral_load,
+		"flujo_contagio_directo": flow_direct_infections,
+		"flujo_contagio_ambiental": flow_environmental_infections,
+		"flujo_recuperacion": flow_recoveries,
 		"nuevos_contagiados": new_infections,
 		"nuevas_curadas": new_recoveries,
 		"penalidad_vida": current_health_penalty
@@ -74,7 +88,8 @@ func process_next_day(used_vaccine: bool, used_medicine: bool) -> void:
 	# Log simplificado para depuración
 	print("\n--- REPORTE DÍA %d ---" % current_day)
 	print("Población: %d | Sanas: %d | Enfermas: %d" % [total_population, susceptible, infected])
-	print("Nuevas contagiadas: %d | Nuevas curadas: %d\n" % [new_infections, new_recoveries])
+	print("Nuevos contagios: %d (Directo: %.1f, Ambiental: %.1f)" % [new_infections, flow_direct_infections, flow_environmental_infections])
+	print("Carga Viral Ambiental: %.2f" % environmental_viral_load)
 	
 	day_processed.emit(data)
 
@@ -85,5 +100,3 @@ func report_chicken_death(state: Hen.State) -> void:
 	total_population -= 1
 	if state == Hen.State.SICK:
 		infected = maxi(infected - 1, 0)
-	elif state == Hen.State.HEALTHY:
-		susceptible = maxi(susceptible - 1, 0)

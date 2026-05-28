@@ -8,7 +8,7 @@ extends Node2D
 @onready var hen_manager    : Node = $HenManager
 
 const MAX_DAYS : int = 30
-const NUMBER_OF_HENS  : int = 15
+const NUMBER_OF_HENS  : int = 3
 const GALPON_CAPACITY : int = 30
 const BATCH_SIZE : int = 3
 
@@ -17,7 +17,7 @@ var day : int = 0
 
 # Inicializa modelos, crea las gallinas y prepara la interfaz
 func _ready() -> void:
-	disease_model.initialize_model(NUMBER_OF_HENS, 1.50, 0.5, GALPON_CAPACITY)
+	disease_model.initialize_model(NUMBER_OF_HENS, GALPON_CAPACITY)
 	survival_model.initialize_model(GALPON_CAPACITY)
 	disease_model.day_processed.connect(_on_day_processed)
 
