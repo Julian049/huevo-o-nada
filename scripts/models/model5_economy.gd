@@ -171,7 +171,7 @@ func _bernoulli(p: float) -> bool:
 # UniformeDiscreta(a, b, s): valor aleatorio en {a, a+s, a+2s, ..., b}
 # Fuente: sección 3.b.5.8 — "a + aleatorio_entero(0, (b-a)/s) * s"
 func _uniforme_discreta(minimo: int, maximo: int, paso: int) -> int:
-	var n := int((maximo - minimo) / paso)
+	var n := int((float(maximo) - float(minimo)) / float(paso))
 	return minimo + randi_range(0, n) * paso
 
 # UniformeContinua(a, b): valor real aleatorio en [a, b]

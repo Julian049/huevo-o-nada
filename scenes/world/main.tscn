@@ -26,51 +26,189 @@ script = ExtResource("5_tt8nk")
 [node name="LabelInstruction" type="Label" parent="UIManager" unique_id=1465220750]
 offset_left = 23.0
 offset_top = 15.0
-offset_right = 355.0
-offset_bottom = 216.0
-theme_override_font_sizes/font_size = 22
-text = "Muévete con las flechas
-Tecla 1: Compra vacuna
-Tecla 2: Compra medicamentos
-Tecla 3: Avanza al siguiente dia
-Tecla 4: Compra gallinas
-Espacio: Iniciar juego"
+offset_right = 900.0
+offset_bottom = 480.0
+theme_override_font_sizes/font_size = 16
+text = "╔════════════════════════════════════════════════════════════════════════════════════╗
+║                          HUEVO O NADA — SIMULADOR DE GRANJA                          ║
+║                                                                                        ║
+║  El abuelo don Ernesto murió dejándote su granja avícola en la vereda El Retiro.    ║
+║  Lo que no sabías era que también te dejaba una deuda de $1.500.000 con el          ║
+║  Banco Rural Andino.                                                                 ║
+║                                                                                        ║
+║  Tienes 30 DÍAS para hacer rentable la granja y saldar la deuda.                     ║
+║  El banquero Rodrigo Urquijo ya tiene los papeles del embargo listos.                ║
+║  Las gallinas te miran. Tú las miras. Alguien tiene que poner el primer huevo.       ║
+║                                                                                        ║
+╠════════════════════════════════════════════════════════════════════════════════════╣
+║                                   CONTROLES DEL JUEGO                               ║
+║                                                                                        ║
+║  ➡️ FLECHAS         - Movimiento del jugador                                          ║
+║  1️⃣ TECLA 1        - Comprar VACUNAS ($15.000) — Previene enfermedades               ║
+║  2️⃣ TECLA 2        - Comprar MEDICAMENTOS ($8.000) — Cura gallinas enfermas          ║
+║  3️⃣ TECLA 3        - AVANZAR AL SIGUIENTE DÍA                                         ║
+║  4️⃣ TECLA 4        - Comprar GALLINAS ($75.000 por lote de 3)                        ║
+║  🛑 ESPACIO        - INICIAR EL JUEGO                                                ║
+║                                                                                        ║
+╠════════════════════════════════════════════════════════════════════════════════════╣
+║                              MECÁNICAS DEL JUEGO                                    ║
+║                                                                                        ║
+║  🐔 PRODUCCIÓN: Cada gallina sana tiene 80% de probabilidad de poner huevo/día     ║
+║  🐭 PLAGAS: Los roedores roban huevos. Más gallinas = más roedores!                 ║
+║  🦠 SALUD: Las enfermedades se propagan. Vacúnalas antes de que sea tarde            ║
+║  📊 EDAD: Las gallinas envejecen. Invierte en mantener el plantel joven              ║
+║  💰 ECONOMÍA: Vende huevos los días 5, 10, 15, 20, 25, 30. ¡Acumula $1.500.000!    ║
+║                                                                                        ║
+║                          ¡Presiona ESPACIO para comenzar!                            ║
+╚════════════════════════════════════════════════════════════════════════════════════╝"
+autowrap_mode = 2
 
 [node name="LabelDay" type="Label" parent="UIManager" unique_id=1240565066]
 visible = false
-offset_left = 84.0
-offset_top = 20.0
-offset_right = 158.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Dia: 0"
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 920.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 13
+text = "Día: 0 / 30  [████████████████░░░░]  (Semana 1 - Día 1)"
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="LabelBalance" type="Label" parent="UIManager" unique_id=537611450]
+[node name="TopBar" type="PanelContainer" parent="UIManager" unique_id=1240565067]
 visible = false
-offset_left = 183.0
-offset_top = 20.0
-offset_right = 311.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Saldo: 0"
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 700.0
+offset_bottom = 80.0
 
-[node name="LabelVaccines" type="Label" parent="UIManager" unique_id=616442839]
-visible = false
-offset_left = 583.0
-offset_top = 20.0
-offset_right = 696.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Vacunas: 0"
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="LabelMedications" type="Label" parent="UIManager" unique_id=945294560]
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/TopBar/MarginContainer"]
+layout_mode = 2
+separation = 2
+
+[node name="LabelBalance" type="Label" parent="UIManager/TopBar/MarginContainer/VBoxContainer" unique_id=537611450]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.2, 1.0, 0.2, 1)
+text = "💰 Saldo: $0"
+
+[node name="HBoxInfo" type="HBoxContainer" parent="UIManager/TopBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+separation = 30
+
+[node name="InventarioLabel" type="Label" parent="UIManager/TopBar/MarginContainer/VBoxContainer/HBoxInfo" unique_id=1075977496]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🥚 Huevos: 0"
+
+[node name="DeudaLabel" type="Label" parent="UIManager/TopBar/MarginContainer/VBoxContainer/HBoxInfo" unique_id=1326804081]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1.0, 0.2, 0.2, 1)
+text = "💳 Deuda: $1.500.000"
+
+[node name="GallsLabel" type="Label" parent="UIManager/TopBar/MarginContainer/VBoxContainer/HBoxInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🐔 Gallinas: 0 (0 enfermas)"
+
+[node name="RoedoresLabel" type="Label" parent="UIManager/TopBar/MarginContainer/VBoxContainer/HBoxInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🐭 Roedores: 0"
+
+[node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
 visible = false
-offset_left = 366.0
-offset_top = 20.0
-offset_right = 547.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Medicamentos: 0"
+offset_left = 50.0
+offset_top = 350.0
+offset_right = 650.0
+offset_bottom = 400.0
+
+[node name="Label" type="Label" parent="UIManager/EventBanner" unique_id=846730203]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "🎮 Sistema de eventos activo"
+autowrap_mode = 2
+
+[node name="SidePanel" type="PanelContainer" parent="UIManager" unique_id=1460913076]
+visible = false
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 700.0
+offset_top = 350.0
+offset_right = 920.0
+offset_bottom = 600.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/SidePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/SidePanel/MarginContainer"]
+layout_mode = 2
+separation = 8
+
+[node name="TitleLabel" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+text = "INVENTARIO / TIENDA"
+
+[node name="LabelVaccines" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer" unique_id=616442839]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "💉 Vacunas: 0"
+
+[node name="LabelMedications" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer" unique_id=945294560]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "💊 Medicamentos: 0"
+
+[node name="SeparatorControls" type="HSeparator" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlsTitle" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.5, 0, 1)
+text = "COMPRAS"
+
+[node name="Control1Label" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "1️⃣ Vacuna: $15.000
+   Previene"
+
+[node name="Control2Label" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "2️⃣ Medicina: $8.000
+   Cura"
+
+[node name="Control3Label" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "3️⃣ Día siguiente
+   24 horas"
+
+[node name="Control4Label" type="Label" parent="UIManager/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "4️⃣ Gallinas: $75K
+   3 aves"
 
 [node name="LabelGameOver" type="Label" parent="UIManager" unique_id=324029225]
 anchors_preset = 8
@@ -102,44 +240,136 @@ offset_bottom = 110.0
 theme_override_font_sizes/font_size = 20
 text = "Reiniciar"
 
-[node name="BalanceLabel" type="Label" parent="UIManager" unique_id=586691413]
+[node name="DashboardPanel" type="PanelContainer" parent="UIManager" unique_id=1460913077]
 visible = false
-offset_left = 23.0
-offset_top = 55.0
-offset_right = 300.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "$1000000"
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 80.0
+offset_right = 700.0
+offset_bottom = 230.0
 
-[node name="InventarioLabel" type="Label" parent="UIManager" unique_id=1075977496]
-visible = false
-offset_left = 320.0
-offset_top = 55.0
-offset_right = 520.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "0 🥚"
-
-[node name="DeudaLabel" type="Label" parent="UIManager" unique_id=1326804081]
-visible = false
-offset_left = 540.0
-offset_top = 55.0
-offset_right = 800.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "Deuda: $1500000"
-
-[node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
-visible = false
-offset_left = 250.0
-offset_top = 520.0
-offset_right = 800.0
-offset_bottom = 560.0
-
-[node name="Label" type="Label" parent="UIManager/EventBanner" unique_id=846730203]
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/DashboardPanel"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-horizontal_alignment = 1
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/DashboardPanel/MarginContainer"]
+layout_mode = 2
+separation = 3
+
+[node name="DashboardTitle" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "PANEL DE SIMULACIÓN (5 MODELOS)"
+
+[node name="Model1Info" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "🐔 PRODUCCIÓN: 0 huevos | 0/0 gallinas sanas"
+
+[node name="Model2Info" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "🐭 PLAGAS: 0 roedores | 0 huevos robados | Estado: CONTROLADO"
+
+[node name="Model3Info" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "🦠 SALUD: 0 enfermas | 0 sanas | Contagio: 0.0%"
+
+[node name="Model4Info" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "📊 EDAD: 0.0 años | Vida restante: 0.0 | Muertes próximas: 0"
+
+[node name="Model5Info" type="Label" parent="UIManager/DashboardPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "💰 ECONOMÍA: Saldo: $0 | Próxima venta: 0 días"
+
+[node name="DebtProgressPanel" type="PanelContainer" parent="UIManager" unique_id=1460913078]
+visible = false
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 230.0
+offset_right = 700.0
+offset_bottom = 350.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/DebtProgressPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/DebtProgressPanel/MarginContainer"]
+layout_mode = 2
+separation = 5
+
+[node name="DebtTitle" type="Label" parent="UIManager/DebtProgressPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.5, 0, 1)
+text = "PROGRESO HACIA LA META"
+
+[node name="DebtProgressBar" type="Label" parent="UIManager/DebtProgressPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Progreso: [████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 40% ($600,000 / $1,500,000)"
+
+[node name="DebtInfo" type="Label" parent="UIManager/DebtProgressPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "📅 Tiempo restante: 15 días | 💧 Balance actual: $500,000 | 🥚 Huevos listos: 150"
+
+[node name="NarrativePanel" type="PanelContainer" parent="UIManager" unique_id=1460913079]
+visible = false
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 700.0
+offset_top = 80.0
+offset_right = 920.0
+offset_bottom = 350.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UIManager/NarrativePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/NarrativePanel/MarginContainer"]
+layout_mode = 2
+separation = 5
+
+[node name="NarrativeTitle" type="Label" parent="UIManager/NarrativePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.8, 0.6, 0.2, 1)
+text = "📖 BITÁCORA"
+
+[node name="EventList" type="Label" parent="UIManager/NarrativePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "🎯 Juego iniciado
+📅 Día 1 comenzó
+🐔 15 gallinas activas
+"
+autowrap_mode = 2
 
 [node name="HenManager" type="Node2D" parent="." unique_id=1792770548]
 script = ExtResource("6_6r0uj")

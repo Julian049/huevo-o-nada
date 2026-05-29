@@ -62,6 +62,7 @@ func process_survival_queue(active_hens: Array) -> Array:
 			hen.health = 0.0
 			hen.set_state(3)
 			hen.is_moving = false
+			hen_died.emit(hen, was_sick)
 			
 		new_hens.append(hen)
 
