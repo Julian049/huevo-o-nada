@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://wf5prflh3h6a" path="res://scripts/models/model4_queues.gd" id="4_wbupf"]
 [ext_resource type="Script" uid="uid://dfk4pqppim6la" path="res://scenes/world/ui_manager.gd" id="5_tt8nk"]
 [ext_resource type="Script" uid="uid://b2n268843jdok" path="res://scenes/world/hen_manager.gd" id="6_6r0uj"]
-[ext_resource type="Script" path="res://scripts/models/model5_economy.gd" id="7_m5eco"]
+[ext_resource type="Script" uid="uid://be32vpjlxjweg" path="res://scripts/models/model5_economy.gd" id="7_m5eco"]
 
 [node name="Main" type="Node2D" unique_id=1355193245]
 script = ExtResource("1_ig7tw")
@@ -88,7 +88,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="RestartButton" type="Button" parent="UIManager"]
+[node name="RestartButton" type="Button" parent="UIManager" unique_id=1564654663]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -102,13 +102,7 @@ offset_bottom = 110.0
 theme_override_font_sizes/font_size = 20
 text = "Reiniciar"
 
-[node name="HenManager" type="Node2D" parent="." unique_id=1792770548]
-script = ExtResource("6_6r0uj")
-
-[node name="Model5Economy" type="Node" parent="."]
-script = ExtResource("7_m5eco")
-
-[node name="BalanceLabel" type="Label" parent="UIManager"]
+[node name="BalanceLabel" type="Label" parent="UIManager" unique_id=586691413]
 visible = false
 offset_left = 23.0
 offset_top = 55.0
@@ -117,7 +111,7 @@ offset_bottom = 86.0
 theme_override_font_sizes/font_size = 18
 text = "$1000000"
 
-[node name="InventarioLabel" type="Label" parent="UIManager"]
+[node name="InventarioLabel" type="Label" parent="UIManager" unique_id=1075977496]
 visible = false
 offset_left = 320.0
 offset_top = 55.0
@@ -126,7 +120,7 @@ offset_bottom = 86.0
 theme_override_font_sizes/font_size = 18
 text = "0 🥚"
 
-[node name="DeudaLabel" type="Label" parent="UIManager"]
+[node name="DeudaLabel" type="Label" parent="UIManager" unique_id=1326804081]
 visible = false
 offset_left = 540.0
 offset_top = 55.0
@@ -135,18 +129,22 @@ offset_bottom = 86.0
 theme_override_font_sizes/font_size = 18
 text = "Deuda: $1500000"
 
-[node name="EventBanner" type="PanelContainer" parent="UIManager"]
+[node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
 visible = false
 offset_left = 250.0
 offset_top = 520.0
 offset_right = 800.0
 offset_bottom = 560.0
 
-[node name="Label" type="Label" parent="UIManager/EventBanner"]
+[node name="Label" type="Label" parent="UIManager/EventBanner" unique_id=846730203]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = ""
 horizontal_alignment = 1
 
-[connection signal="pressed" from="UIManager/RestartButton" to="UIManager" method="_on_restart_pressed"]
+[node name="HenManager" type="Node2D" parent="." unique_id=1792770548]
+script = ExtResource("6_6r0uj")
 
+[node name="Model5Economy" type="Node" parent="." unique_id=1987589524]
+script = ExtResource("7_m5eco")
+
+[connection signal="pressed" from="UIManager/RestartButton" to="UIManager" method="_on_restart_pressed"]
