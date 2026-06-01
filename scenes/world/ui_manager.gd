@@ -1,63 +1,74 @@
 extends Node
-# Se encarga exclusivamente de mostrar, ocultar y actualizar los textos en pantalla.
 
-@onready var label_day: Label = $LabelDay
-@onready var label_balance: Label = $LabelBalance
-@onready var label_instruction: Label = $LabelInstruction
-@onready var label_vaccines: Label = $LabelVaccines
-@onready var label_medications: Label = $LabelMedications
-@onready var label_game_over: Label = $LabelGameOver
+@onready var label_day         : Label          = $HUD/HBoxContainer/LabelDay
+@onready var label_vaccines    : Label          = $HUD/HBoxContainer/LabelVaccines
+@onready var label_medications : Label          = $HUD/HBoxContainer/LabelMedications
+@onready var balance_label     : Label          = $HUD/HBoxContainer/BalanceLabel
+@onready var inventory_label   : Label          = $HUD/HBoxContainer/InventarioLabel
+@onready var debt_label        : Label          = $HUD/HBoxContainer/DeudaLabel
 
-# Prepara la interfaz antes de que el jugador presione ESPACIO
+@onready var label_instruction : Label          = $LabelInstruction
+
+@onready var label_game_over   : Label          = $GameOverPanel/VBoxContainer/LabelGameOver
+@onready var restart_button    : Button         = $GameOverPanel/VBoxContainer/RestartButton
+@onready var game_over_panel   : PanelContainer = $GameOverPanel
+
+@onready var event_banner      : PanelContainer = $EventBanner
+@onready var event_banner_label: Label          = $EventBanner/LabelEvento
+
 func setup_initial_ui() -> void:
 	label_instruction.visible = true
-	label_game_over.visible = false
-	label_day.visible = false
-	label_balance.visible = false
-	label_vaccines.visible = false
-	label_medications.visible = false
+	game_over_panel.visible   = false
+	_set_hud_visible(false)
+	event_banner.visible      = false
 
-# Muestra el HUD principal una vez que arranca la simulación
 func setup_running_ui() -> void:
 	label_instruction.visible = false
-	label_day.visible = true
-	label_balance.visible = true
-	label_vaccines.visible = true
-	label_medications.visible = true
-	
-	# Mostrar UI del Modelo 5
-	$BalanceLabel.visible = true
-	$InventarioLabel.visible = true
-	$DeudaLabel.visible = true
+	_set_hud_visible(true)
+	event_banner.visible      = false
 
-# Activa el cartel de fin de juego y el botón de reiniciar
-func show_game_over(mensaje: String = "GAME OVER") -> void:
-	label_game_over.text = mensaje
-	label_game_over.visible = true
-	$RestartButton.visible = true
+func update_hud(day: int, player: Node) -> void:
+	label_day.text         = "Día %d / 30" % day
+	label_vaccines.text    = "%d" % player.vaccine_inventory
+	label_medications.text = "%d" % player.medicine_inventory
 
-# Reinicia la escena completa
+func update_economy(balance: float, inventory: int, remaining_debt: float) -> void:
+	balance_label.text   = "$%s" % _format_cop(int(balance))
+	inventory_label.text = "%d" % inventory
+	debt_label.text      = "Deuda: $%s" % _format_cop(int(max(0.0, remaining_debt)))
+
+	# Colorear la deuda según urgencia
+	if remaining_debt <= 300_000:
+		debt_label.add_theme_color_override("font_color", Color(0.247, 0.780, 0.373))
+	elif remaining_debt <= 800_000:
+		debt_label.add_theme_color_override("font_color", Color(0.961, 0.773, 0.259))
+	else:
+		debt_label.add_theme_color_override("font_color", Color(0.753, 0.224, 0.169))
+
+func show_event_banner(message: String) -> void:
+	event_banner_label.text = message
+	event_banner.visible    = true
+	await get_tree().create_timer(3.0).timeout
+	event_banner.visible = false
+
+func show_game_over(message: String = "GAME OVER") -> void:
+	label_game_over.text    = message
+	game_over_panel.visible = true
+
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
 
-# Refresca los textos en pantalla con los datos actuales del jugador y el día
-func update_hud(day: int, player: Node) -> void:
-	if label_day: label_day.text = "Day: " + str(day)
-	if label_balance: label_balance.visible = false  # Balance real está en BalanceLabel (Modelo 5)
-	if label_vaccines: label_vaccines.text = "Vacunas: " + str(player.vaccine_inventory)
-	if label_medications: label_medications.text = "Medicinas: " + str(player.medicine_inventory)
+func _set_hud_visible(is_visible: bool) -> void:
+	$HUD.visible = is_visible
 
-# --- FUNCIONES DEL MODELO 5 (ECONOMÍA) ---
-
-func update_economy(balance: float, inventario: int, deuda_restante: float) -> void:
-	# Asegúrate de que estos nodos Label existan en tu escena HUD
-	$BalanceLabel.text      = "$" + str(int(balance))
-	$InventarioLabel.text   = str(inventario) + " 🥚"
-	$DeudaLabel.text        = "Deuda: $" + str(int(deuda_restante))
-
-func show_event_banner(mensaje: String) -> void:
-	$EventBanner/Label.text = mensaje
-	$EventBanner.visible    = true
-	# Ocultar automáticamente después de 3 segundos
-	await get_tree().create_timer(3.0).timeout
-	$EventBanner.visible = false
+func _format_cop(value: int) -> String:
+	# Formatea con puntos de miles: 1500000 → "1.500.000"
+	var string_val := str(abs(value))
+	var output     := ""
+	var count      := 0
+	for i in range(string_val.length() - 1, -1, -1):
+		if count > 0 and count % 3 == 0:
+			output = "." + output
+		output = string_val[i] + output
+		count += 1
+	return ("-" if value < 0 else "") + output

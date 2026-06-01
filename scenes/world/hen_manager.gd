@@ -9,7 +9,7 @@ func spawn_initial_batch(count: int, survival_model: Node, is_running: bool) -> 
 	var new_hens: Array = []
 	for i in range(count):
 		var hen = hen_scene.instantiate()
-		hen.position = Vector2(randf_range(100.0, 900.0), randf_range(100.0, 500.0))
+		hen.position = Vector2(randf_range(0.0, 1000.0), randf_range(50.0, 300.0))
 		add_child(hen)
 		new_hens.append(hen)
 
@@ -31,7 +31,7 @@ func spawn_purchased_batch(count: int, survival_model: Node, disease_model: Node
 	var new_hens: Array = []
 	for i in range(count):
 		var hen = hen_scene.instantiate()
-		hen.position = Vector2(randf_range(100.0, 900.0), randf_range(100.0, 500.0))
+		hen.position = Vector2(randf_range(0.0, 1000.0), randf_range(50.0, 300.0))
 		add_child(hen)
 		new_hens.append(hen)
 

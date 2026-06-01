@@ -7,12 +7,51 @@
 [ext_resource type="Script" uid="uid://dfk4pqppim6la" path="res://scenes/world/ui_manager.gd" id="5_tt8nk"]
 [ext_resource type="Script" uid="uid://b2n268843jdok" path="res://scenes/world/hen_manager.gd" id="6_6r0uj"]
 [ext_resource type="Script" uid="uid://be32vpjlxjweg" path="res://scripts/models/model5_economy.gd" id="7_m5eco"]
+[ext_resource type="Script" uid="uid://bpnjeeggjt0sq" path="res://scenes/world/map_background.gd" id="8_mapbg"]
 
 [node name="Main" type="Node2D" unique_id=1355193245]
 script = ExtResource("1_ig7tw")
 
+[node name="MapBackground" type="Node2D" parent="." unique_id=1001000001]
+z_index = -10
+script = ExtResource("8_mapbg")
+
+[node name="ZonaCielo" type="ColorRect" parent="." unique_id=1001000002]
+z_index = -9
+offset_right = 1152.0
+offset_bottom = 50.0
+color = Color(0.529, 0.808, 0.922, 1)
+
+[node name="ZonaVegetacion" type="ColorRect" parent="." unique_id=1001000003]
+z_index = -9
+offset_top = 50.0
+offset_right = 1152.0
+offset_bottom = 68.0
+color = Color(0.333, 0.42, 0.184, 1)
+
+[node name="ZonaCorrales" type="ColorRect" parent="." unique_id=1001000004]
+z_index = -9
+offset_top = 68.0
+offset_right = 1152.0
+offset_bottom = 368.0
+color = Color(0.769, 0.643, 0.42, 1)
+
+[node name="ZonaPerimetral" type="ColorRect" parent="." unique_id=1001000006]
+z_index = -9
+offset_top = 368.0
+offset_right = 1152.0
+offset_bottom = 498.0
+color = Color(0.42, 0.541, 0.227, 0.6)
+
+[node name="ZonaHUD" type="ColorRect" parent="." unique_id=1001000007]
+z_index = -9
+offset_top = 498.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.173, 0.102, 0.031, 1)
+
 [node name="Player" parent="." unique_id=1883325256 instance=ExtResource("2_0xm2m")]
-position = Vector2(460, 255)
+position = Vector2(460, 180)
 
 [node name="Model3Disease" type="Node" parent="." unique_id=1486568440]
 script = ExtResource("3_f8fyy")
@@ -20,131 +59,129 @@ script = ExtResource("3_f8fyy")
 [node name="Model4Queues" type="Node" parent="." unique_id=939603791]
 script = ExtResource("4_wbupf")
 
-[node name="UIManager" type="Node" parent="." unique_id=1460913075]
-script = ExtResource("5_tt8nk")
-
-[node name="LabelInstruction" type="Label" parent="UIManager" unique_id=1465220750]
-offset_left = 23.0
-offset_top = 15.0
-offset_right = 355.0
-offset_bottom = 216.0
-theme_override_font_sizes/font_size = 22
-text = "Muévete con las flechas
-Tecla 1: Compra vacuna
-Tecla 2: Compra medicamentos
-Tecla 3: Avanza al siguiente dia
-Tecla 4: Compra gallinas
-Espacio: Iniciar juego"
-
-[node name="LabelDay" type="Label" parent="UIManager" unique_id=1240565066]
-visible = false
-offset_left = 84.0
-offset_top = 20.0
-offset_right = 158.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Dia: 0"
-
-[node name="LabelBalance" type="Label" parent="UIManager" unique_id=537611450]
-visible = false
-offset_left = 183.0
-offset_top = 20.0
-offset_right = 311.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Saldo: 0"
-
-[node name="LabelVaccines" type="Label" parent="UIManager" unique_id=616442839]
-visible = false
-offset_left = 583.0
-offset_top = 20.0
-offset_right = 696.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Vacunas: 0"
-
-[node name="LabelMedications" type="Label" parent="UIManager" unique_id=945294560]
-visible = false
-offset_left = 366.0
-offset_top = 20.0
-offset_right = 547.0
-offset_bottom = 51.0
-theme_override_font_sizes/font_size = 22
-text = "Medicamentos: 0"
-
-[node name="LabelGameOver" type="Label" parent="UIManager" unique_id=324029225]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -60.0
-offset_right = 350.0
-offset_bottom = 60.0
-theme_override_font_sizes/font_size = 40
-text = "GAME OVER"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="RestartButton" type="Button" parent="UIManager" unique_id=1564654663]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = 70.0
-offset_right = 80.0
-offset_bottom = 110.0
-theme_override_font_sizes/font_size = 20
-text = "Reiniciar"
-
-[node name="BalanceLabel" type="Label" parent="UIManager" unique_id=586691413]
-visible = false
-offset_left = 23.0
-offset_top = 55.0
-offset_right = 300.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "$1000000"
-
-[node name="InventarioLabel" type="Label" parent="UIManager" unique_id=1075977496]
-visible = false
-offset_left = 320.0
-offset_top = 55.0
-offset_right = 520.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "0 🥚"
-
-[node name="DeudaLabel" type="Label" parent="UIManager" unique_id=1326804081]
-visible = false
-offset_left = 540.0
-offset_top = 55.0
-offset_right = 800.0
-offset_bottom = 86.0
-theme_override_font_sizes/font_size = 18
-text = "Deuda: $1500000"
-
-[node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
-visible = false
-offset_left = 250.0
-offset_top = 520.0
-offset_right = 800.0
-offset_bottom = 560.0
-
-[node name="Label" type="Label" parent="UIManager/EventBanner" unique_id=846730203]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-horizontal_alignment = 1
+[node name="Model5Economy" type="Node" parent="." unique_id=1987589524]
+script = ExtResource("7_m5eco")
 
 [node name="HenManager" type="Node2D" parent="." unique_id=1792770548]
 script = ExtResource("6_6r0uj")
 
-[node name="Model5Economy" type="Node" parent="." unique_id=1987589524]
-script = ExtResource("7_m5eco")
+[node name="UIManager" type="Node" parent="." unique_id=1460913075]
+script = ExtResource("5_tt8nk")
 
-[connection signal="pressed" from="UIManager/RestartButton" to="UIManager" method="_on_restart_pressed"]
+[node name="LabelInstruction" type="Label" parent="UIManager" unique_id=1465220750]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -120.0
+offset_right = 220.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(1, 0.973, 0.906, 1)
+theme_override_font_sizes/font_size = 20
+text = "HUEVO O NADA
+ 
+ [ESPACIO]  Iniciar simulacion
+ [1]  Comprar vacuna  ($15.000)
+ [2]  Comprar medicina  ($8.000)
+ [3]  Avanzar al dia siguiente
+ [4]  Comprar 3 gallinas  ($75.000)
+ [Flechas / WASD]  Mover jugador"
+horizontal_alignment = 1
+
+[node name="HUD" type="PanelContainer" parent="UIManager" unique_id=1001001000]
+offset_right = 1152.0
+offset_bottom = 46.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/HUD" unique_id=1001001001]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 2
+
+[node name="LabelDay" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1240565066]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.961, 0.773, 0.259, 1)
+theme_override_font_sizes/font_size = 18
+text = "Dia: 0 / 30"
+
+[node name="BalanceLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=586691413]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.647, 0.906, 0.647, 1)
+theme_override_font_sizes/font_size = 18
+text = "$1.000.000"
+
+[node name="InventarioLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1075977496]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.973, 0.906, 1)
+theme_override_font_sizes/font_size = 18
+text = "0 🥚"
+
+[node name="DeudaLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1326804081]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.753, 0.224, 0.169, 1)
+theme_override_font_sizes/font_size = 18
+text = "Deuda: $1.500.000"
+
+[node name="LabelVaccines" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=616442839]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.529, 0.808, 0.922, 1)
+theme_override_font_sizes/font_size = 18
+text = "💉 0"
+
+[node name="LabelMedications" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=945294560]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.529, 0.808, 0.922, 1)
+theme_override_font_sizes/font_size = 18
+text = "💊 0"
+
+[node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+offset_bottom = -2.0
+
+[node name="LabelEvento" type="Label" parent="UIManager/EventBanner" unique_id=846730203]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.961, 0.773, 0.259, 1)
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+
+[node name="GameOverPanel" type="PanelContainer" parent="UIManager" unique_id=1001002000]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = 100.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIManager/GameOverPanel" unique_id=1001002001]
+layout_mode = 2
+alignment = 1
+
+[node name="LabelGameOver" type="Label" parent="UIManager/GameOverPanel/VBoxContainer" unique_id=324029225]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.961, 0.773, 0.259, 1)
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UIManager/GameOverPanel/VBoxContainer" unique_id=1564654663]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Reiniciar"
+
+[connection signal="pressed" from="UIManager/GameOverPanel/VBoxContainer/RestartButton" to="UIManager" method="_on_restart_pressed"]

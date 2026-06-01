@@ -37,7 +37,7 @@ func _physics_process(_delta: float) -> void:
 	
 	# Limitar movimiento a los bordes de la pantalla
 	position.x = clamp(position.x, 20.0, 1132.0)
-	position.y = clamp(position.y, 20.0, 628.0)
+	position.y = clamp(position.y, 80.0, 630.0)
 
 # Consume una vacuna si hay en el inventario
 func try_use_vaccine() -> bool:

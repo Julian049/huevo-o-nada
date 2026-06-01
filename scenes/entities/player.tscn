@@ -85,6 +85,7 @@ animations = [{
 radius = 30.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1883325256]
+scale = Vector2(0.6, 0.6)
 script = ExtResource("1_omvyu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=132291163]

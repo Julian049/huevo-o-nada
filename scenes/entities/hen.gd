@@ -1,11 +1,12 @@
 extends Area2D
 class_name Hen
 
-# =====================================================================
-# HEN — VISUAL AGENT & DATA CONTAINER (PREPARED FOR MODEL 4)
-# =====================================================================
-
 enum State { HEALTHY, SICK, RECOVERED, DEAD }
+
+const COLOR_SANA      := Color(0.961, 0.773, 0.259)
+const COLOR_ENFERMA   := Color(0.478, 0.549, 0.416)
+const COLOR_RECUPERADA:= Color(0.647, 0.808, 0.537) 
+const COLOR_MUERTA    := Color(0.290, 0.290, 0.290)  
 
 var current_state : int = State.HEALTHY
 @onready var sprite = $AnimatedSprite2D
@@ -27,9 +28,15 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# Si no se está moviendo o está muerta, reproducir animación quieta y salir
-	if not is_moving or current_state == State.DEAD:
+	if current_state == State.DEAD:
+		sprite.play("dead")
+		return
+	
+	if not is_moving:
 		sprite.play("idle_front")
 		return
+		
+
 		
 	# Aplicar movimiento
 	position += direction * speed * delta
@@ -53,14 +60,21 @@ func set_state(new_state: int) -> void:
 func _update_visuals() -> void:
 	match current_state:
 		State.HEALTHY:
-			modulate = Color(1.0, 1.0, 1.0) # Blanco
+			modulate = COLOR_SANA
 		State.SICK:
-			modulate = Color(0.0, 1.0, 0.0) # Verde
+			modulate = COLOR_ENFERMA
 		State.RECOVERED:
-			modulate = Color(0.0, 0.0, 1.0) # Azul
+			modulate = COLOR_RECUPERADA
 		State.DEAD:
-			modulate = Color(1.0, 0.0, 0.0) # Rojo
+			modulate = COLOR_MUERTA
+			speed = 0.0
+			is_moving = false
 
 func _handle_screen_bounce() -> void:
-	if position.x < 20.0 or position.x > 1000.0: direction.x *= -1.0
-	if position.y < 20.0 or position.y > 550.0: direction.y *= -1.0
+	if position.x < -50.0 or position.x > 1050.0: 
+		direction.x *= -1.0
+		
+	# Rebote en los bordes superior (cielo/pasto) e inferior (comederos) del corral
+	if position.y < 45.0 or position.y > 310.0: 
+		direction.y *= -1.0
+		

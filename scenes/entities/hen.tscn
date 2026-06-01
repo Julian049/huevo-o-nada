@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://jrjiio0nkums"]
 
 [ext_resource type="Script" uid="uid://ovmbno7lwpvo" path="res://scenes/entities/hen.gd" id="1_i83nv"]
+[ext_resource type="Texture2D" uid="uid://63nbjh5cxtki" path="res://assets/sprites/hen/d.png" id="2_0smeb"]
 [ext_resource type="Texture2D" uid="uid://dkkjxtu3iywkm" path="res://assets/sprites/hen/s.png" id="2_x2lpf"]
 [ext_resource type="Texture2D" uid="uid://chijgbjhw36tw" path="res://assets/sprites/hen/b1.png" id="3_0smeb"]
 [ext_resource type="Texture2D" uid="uid://cuwrsww7ocwvl" path="res://assets/sprites/hen/b2.png" id="4_71ss8"]
@@ -15,6 +16,14 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dvb22"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0smeb")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_x2lpf")
@@ -73,13 +82,14 @@ animations = [{
 radius = 20.0
 
 [node name="Hen" type="Area2D" unique_id=1012292379]
+scale = Vector2(0.6, 0.6)
 script = ExtResource("1_i83nv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=78288680]
 position = Vector2(117, 66)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_dvb22")
-animation = &"walk_side"
+animation = &"dead"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1661275915]
 position = Vector2(118, 69)
