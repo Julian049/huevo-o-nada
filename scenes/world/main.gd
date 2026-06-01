@@ -31,6 +31,7 @@ func _ready() -> void:
 	model5_economy.costo_maiz_actualizado.connect(_on_costo_maiz_actualizado)
 	model5_economy.banquero_visito.connect(_on_banquero_visito)
 	model5_economy.inspeccion_ocurrio.connect(_on_inspeccion_ocurrio)
+	model5_economy.inspeccion_superada.connect(_on_inspeccion_superada)
 	model5_economy.oferta_vacunas_disponible.connect(_on_oferta_vacunas_disponible)
 	model5_economy.vecino_vendio.connect(_on_vecino_vendio)
 	model5_economy.balance_actualizado.connect(_on_balance_actualizado)
@@ -104,7 +105,8 @@ func _on_day_processed(report: Dictionary) -> void:
 		day,
 		hen_manager.active_hens.size(),
 		produccion,
-		0  # robos: 0 hasta que Modelo 2 esté integrado
+		0,  # robos: 0 hasta que Modelo 2 esté integrado
+		disease_model.infected
 	)
 
 	_validate_game_over()
@@ -136,6 +138,9 @@ func _on_banquero_visito(deuda_restante: float) -> void:
 
 func _on_inspeccion_ocurrio(multa: float) -> void:
 	ui_manager.show_event_banner("🚨 Multa: $" + str(int(multa)))
+
+func _on_inspeccion_superada() -> void:
+	ui_manager.show_event_banner("✅ Inspección superada ✓")
 
 func _on_oferta_vacunas_disponible() -> void:
 	ui_manager.show_event_banner("💊 ¡Vacunas con 40% descuento!")

@@ -6,6 +6,7 @@ signal precio_actualizado(nuevo_precio: int)
 signal costo_maiz_actualizado(nuevo_costo: int)
 signal banquero_visito(deuda_restante: float)
 signal inspeccion_ocurrio(multa: float)
+signal inspeccion_superada()
 signal oferta_vacunas_disponible()
 signal vecino_vendio(nuevo_precio: int)
 signal balance_actualizado(nuevo_balance: float, acumulado: float)
@@ -44,6 +45,7 @@ var inventario_huevos:  int
 var precio_huevo:       int
 var costo_alimento_dia: int
 var acumulado_ventas:   float
+var _n_infectadas:      int
 
 # --- COLA DE EVENTOS ---
 var _cola_eventos: Array
@@ -89,7 +91,8 @@ func _generar_cola_eventos() -> void:
 
 # Función principal del modelo — procesa todos los eventos del día actual
 # Traduce las fórmulas de la sección 3.b.5.3 y pseudocódigo de la sección 3.b.5.8
-func process_day(dia_actual: int, n_gallinas: int, produccion: int, robos: int) -> void:
+func process_day(dia_actual: int, n_gallinas: int, produccion: int, robos: int, n_infectadas: int = 0) -> void:
+	_n_infectadas = n_infectadas
 
 	# 1. Actualizar inventario — fórmula sección 3.b.5.3:
 	# inventario(t+1) = inventario(t) + produccion(t) - robos(t)
@@ -147,10 +150,13 @@ func _procesar_evento(tipo: String, dia_actual: int) -> void:
 					emit_signal("game_over", "EMBARGO")
 
 		"INSPECCION":
-			# Uniforme continua U(500.000, 2.000.000) — sección 3.b.5.5
-			var multa := _uniforme_continua(MULTA_MIN, MULTA_MAX)
-			balance_caja -= multa
-			emit_signal("inspeccion_ocurrio", multa)
+			# Solo multa si hay gallinas infectadas — sección 3.b.5.5
+			if _n_infectadas > 0:
+				var multa := _uniforme_continua(MULTA_MIN, MULTA_MAX)
+				balance_caja -= multa
+				emit_signal("inspeccion_ocurrio", multa)
+			else:
+				emit_signal("inspeccion_superada")
 
 		"OFERTA_VACUNAS":
 			emit_signal("oferta_vacunas_disponible")
