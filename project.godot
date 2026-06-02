@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="HuevoONada"
-run/main_scene="uid://db3x6hhv5s5yi"
+run/main_scene="uid://d3g4fvg08w6ky"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 

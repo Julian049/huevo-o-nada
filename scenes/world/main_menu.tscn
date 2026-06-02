@@ -1,0 +1,228 @@
+[gd_scene format=3 uid="uid://d3g4fvg08w6ky"]
+
+[ext_resource type="Script" uid="uid://bc256l2nqhdwr" path="res://scenes/world/main_menu.gd" id="1_rwhqr"]
+[ext_resource type="Texture2D" uid="uid://cpnkwqjjc45na" path="res://assets/sprites/instrucciones1.png" id="2_vwidw"]
+[ext_resource type="Texture2D" uid="uid://ci8fnbwqrlfaw" path="res://assets/sprites/instrucciones2.png" id="3_27yfw"]
+[ext_resource type="Texture2D" uid="uid://o7v0im46oxbr" path="res://assets/sprites/creditos.png" id="4_27yfw"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jvq3n"]
+load_path = "res://.godot/imported/menu_bg.png-9478556fe857b797a39f623531c087e9.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vwidw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_27yfw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vjeyx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8huic"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvxs2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_76jpa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3k6ne"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jvq3n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rwhqr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bh0oe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a5o1j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2nbhb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pp17b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_twjs6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4hsla"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t34k6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u82ay"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2jg57"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fgiq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2665h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m2v8y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4sk25"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l1cfn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dkiwo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1k8ib"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6qto2"]
+
+[node name="MainMenu" type="Control" unique_id=1762368530]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rwhqr")
+
+[node name="Background" type="TextureRect" parent="." unique_id=269786402]
+layout_mode = 1
+offset_right = 1672.0
+offset_bottom = 941.0
+scale = Vector2(0.7, 0.7)
+texture = SubResource("CompressedTexture2D_jvq3n")
+stretch_mode = 6
+
+[node name="BtnJugar" type="Button" parent="." unique_id=1986919586]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 254.0
+offset_right = 770.0
+offset_bottom = 327.0
+pivot_offset = Vector2(185.06, 32)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vwidw")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_27yfw")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vjeyx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_8huic")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pvxs2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_76jpa")
+
+[node name="BtnHistoria" type="Button" parent="." unique_id=498495789]
+layout_mode = 0
+offset_left = 403.0
+offset_top = 338.0
+offset_right = 773.0
+offset_bottom = 412.0
+pivot_offset = Vector2(185, 32)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3k6ne")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_jvq3n")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rwhqr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bh0oe")
+
+[node name="BtnInstrucciones" type="Button" parent="." unique_id=957239120]
+layout_mode = 0
+offset_left = 411.0
+offset_top = 421.0
+offset_right = 766.0
+offset_bottom = 496.0
+pivot_offset = Vector2(185, 32)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_a5o1j")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_jvq3n")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rwhqr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bh0oe")
+
+[node name="BtnCreditos" type="Button" parent="." unique_id=1009594322]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 509.0
+offset_right = 768.0
+offset_bottom = 582.0
+pivot_offset = Vector2(185, 32)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2nbhb")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_jvq3n")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rwhqr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bh0oe")
+
+[node name="PanelInstrucciones" type="PanelContainer" parent="." unique_id=1027370129]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pp17b")
+
+[node name="PaginaUno" type="Control" parent="PanelInstrucciones" unique_id=242763363]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelInstrucciones/PaginaUno" unique_id=1403501619]
+layout_mode = 1
+offset_left = -2.9999998
+offset_top = 2.9999998
+offset_right = 1664.1428
+offset_bottom = 934.4285
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_vwidw")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="BtnVolverUno" type="Button" parent="PanelInstrucciones/PaginaUno" unique_id=1183326439]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 180.0
+offset_bottom = 60.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_u82ay")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2jg57")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6fgiq")
+
+[node name="BtnSiguiente" type="Button" parent="PanelInstrucciones/PaginaUno" unique_id=928036372]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 180.0
+offset_bottom = 60.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_u82ay")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2jg57")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6fgiq")
+
+[node name="PaginaDos" type="Control" parent="PanelInstrucciones" unique_id=1656094387]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelInstrucciones/PaginaDos" unique_id=1969283093]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_27yfw")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BtnVolverDos" type="Button" parent="PanelInstrucciones/PaginaDos" unique_id=1190017586]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 180.0
+offset_bottom = 60.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_u82ay")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2jg57")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6fgiq")
+
+[node name="PanelCreditos" type="PanelContainer" parent="." unique_id=1266194950]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2665h")
+
+[node name="TextureRect" type="TextureRect" parent="PanelCreditos" unique_id=1758518011]
+layout_mode = 2
+texture = ExtResource("4_27yfw")
+expand_mode = 1
+
+[node name="BtnVolverCreditos" type="Button" parent="PanelCreditos" unique_id=869277340]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_m2v8y")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4sk25")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l1cfn")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_dkiwo")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1k8ib")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6qto2")
