@@ -10,12 +10,15 @@ func _ready() -> void:
 	_setup_button_fx($BtnHistoria)
 	_setup_button_fx($BtnInstrucciones)
 	_setup_button_fx($BtnCreditos)
+	_setup_button_fx($BtnCerrar)
+	
 
 	$BtnJugar.pressed.connect(_on_jugar)
 	$BtnHistoria.pressed.connect(_on_historia)
 	$BtnInstrucciones.pressed.connect(_on_instrucciones)
 	$BtnCreditos.pressed.connect(_on_creditos)
-
+	$BtnCerrar.pressed.connect(_on_cerrar)
+	
 	$PanelCreditos/BtnVolverCreditos.pressed.connect(_cerrar_paneles)
 	$PanelInstrucciones/PaginaUno/BtnVolverUno.pressed.connect(_cerrar_paneles)
 	$PanelInstrucciones/PaginaUno/BtnSiguiente.pressed.connect(_ir_pagina_dos)
@@ -73,3 +76,5 @@ func _on_creditos() -> void:
 	_cerrar_paneles()
 	panel_creditos.visible = true
 	
+func _on_cerrar() -> void:
+	get_tree().quit()

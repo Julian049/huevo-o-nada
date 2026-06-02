@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://d3g4fvg08w6ky"]
 
 [ext_resource type="Script" uid="uid://bc256l2nqhdwr" path="res://scenes/world/main_menu.gd" id="1_rwhqr"]
-[ext_resource type="Texture2D" uid="uid://cpnkwqjjc45na" path="res://assets/sprites/instrucciones1.png" id="2_vwidw"]
-[ext_resource type="Texture2D" uid="uid://ci8fnbwqrlfaw" path="res://assets/sprites/instrucciones2.png" id="3_27yfw"]
 [ext_resource type="Texture2D" uid="uid://o7v0im46oxbr" path="res://assets/sprites/creditos.png" id="4_27yfw"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jvq3n"]
@@ -32,7 +30,22 @@ load_path = "res://.godot/imported/menu_bg.png-9478556fe857b797a39f623531c087e9.
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2nbhb"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ng24c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cyve8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dr4u2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rgie4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1pkmr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qohqh"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pp17b"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bh0oe"]
+load_path = "res://.godot/imported/instrucciones1.png-6061b689397c9352392216f2af459afa.ctex"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_twjs6"]
 
@@ -45,6 +58,9 @@ load_path = "res://.godot/imported/menu_bg.png-9478556fe857b797a39f623531c087e9.
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2jg57"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fgiq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vwidw"]
+load_path = "res://.godot/imported/instrucciones2.png-49f55c012c2be5435e415b16cc48b7a0.ctex"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2665h"]
 
@@ -127,6 +143,19 @@ theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_jvq3n")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_rwhqr")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_bh0oe")
 
+[node name="BtnCerrar" type="Button" parent="." unique_id=578286302]
+layout_mode = 0
+offset_left = 1080.0
+offset_top = 19.0
+offset_right = 1140.0
+offset_bottom = 79.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ng24c")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_cyve8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_dr4u2")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_rgie4")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1pkmr")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qohqh")
+
 [node name="PanelInstrucciones" type="PanelContainer" parent="." unique_id=1027370129]
 visible = false
 layout_mode = 1
@@ -139,24 +168,27 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_pp17b")
 
 [node name="PaginaUno" type="Control" parent="PanelInstrucciones" unique_id=242763363]
+visible = false
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="PanelInstrucciones/PaginaUno" unique_id=1403501619]
 layout_mode = 1
-offset_left = -2.9999998
-offset_top = 2.9999998
-offset_right = 1664.1428
-offset_bottom = 934.4285
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("2_vwidw")
-expand_mode = 1
-stretch_mode = 2
+anchors_preset = -1
+offset_left = 2.9999924
+offset_top = 1.0
+offset_right = 1844.4285
+offset_bottom = 900.99994
+scale = Vector2(0.632, 0.72)
+texture = SubResource("CompressedTexture2D_bh0oe")
+stretch_mode = 6
 
 [node name="BtnVolverUno" type="Button" parent="PanelInstrucciones/PaginaUno" unique_id=1183326439]
 layout_mode = 1
 anchors_preset = -1
-offset_right = 180.0
-offset_bottom = 60.0
+offset_left = 19.0
+offset_top = 13.0
+offset_right = 159.0
+offset_bottom = 69.0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
@@ -167,8 +199,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_6fgiq")
 [node name="BtnSiguiente" type="Button" parent="PanelInstrucciones/PaginaUno" unique_id=928036372]
 layout_mode = 1
 anchors_preset = -1
-offset_right = 180.0
-offset_bottom = 60.0
+offset_left = 976.0
+offset_top = 12.0
+offset_right = 1154.0
+offset_bottom = 68.0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
@@ -182,20 +216,26 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="PanelInstrucciones/PaginaDos" unique_id=1969283093]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.9999962
+offset_right = 749.1428
+offset_bottom = 303.3333
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_27yfw")
-expand_mode = 1
+scale = Vector2(0.61, 0.68)
+texture = SubResource("CompressedTexture2D_vwidw")
 stretch_mode = 6
 
 [node name="BtnVolverDos" type="Button" parent="PanelInstrucciones/PaginaDos" unique_id=1190017586]
 layout_mode = 1
 anchors_preset = -1
-offset_right = 180.0
-offset_bottom = 60.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 163.0
+offset_bottom = 74.0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_twjs6")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4hsla")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_t34k6")
@@ -219,6 +259,7 @@ texture = ExtResource("4_27yfw")
 expand_mode = 1
 
 [node name="BtnVolverCreditos" type="Button" parent="PanelCreditos" unique_id=869277340]
+custom_minimum_size = Vector2(180, 50)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_m2v8y")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4sk25")
