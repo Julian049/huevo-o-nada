@@ -1,5 +1,9 @@
 extends Node
 
+# ═══════════════════════════════════════════════════════════════
+#  UIManager — Gestión de interfaz con animaciones
+# ═══════════════════════════════════════════════════════════════
+
 @onready var label_day         : Label          = $HUD/HBoxContainer/LabelDay
 @onready var label_vaccines    : Label          = $HUD/HBoxContainer/LabelVaccines
 @onready var label_medications : Label          = $HUD/HBoxContainer/LabelMedications
@@ -16,16 +20,49 @@ extends Node
 @onready var event_banner      : PanelContainer = $EventBanner
 @onready var event_banner_label: Label          = $EventBanner/LabelEvento
 
+# ── Colores por tipo de evento ────────────────────────────────
+const COLOR_VENTA    := Color(0.247, 0.780, 0.373)
+const COLOR_PRECIO   := Color(0.961, 0.773, 0.259)
+const COLOR_MAIZ     := Color(0.961, 0.773, 0.259)
+const COLOR_BANQUERO := Color(0.286, 0.631, 0.902)
+const COLOR_MULTA    := Color(0.961, 0.247, 0.247)
+const COLOR_INSP_OK  := Color(0.247, 0.780, 0.373)
+const COLOR_VACUNAS  := Color(0.529, 0.808, 0.922)
+const COLOR_VECINO   := Color(0.902, 0.486, 0.114)
+const COLOR_DEFAULT  := Color(0.961, 0.773, 0.259)
+
+# ── Cola de banners ───────────────────────────────────────────
+var _banner_queue : Array = []
+var _banner_busy  : bool  = false
+
+# ── Duraciones ────────────────────────────────────────────────
+const DUR_IN   := 0.30
+const DUR_HOLD := 2.8
+const DUR_OUT  := 0.22
+const DUR_GO   := 0.50   # game over
+
+
+# ═══════════════════════════════════════════════════════════════
+#  SETUP
+# ═══════════════════════════════════════════════════════════════
+
 func setup_initial_ui() -> void:
 	label_instruction.visible = true
 	game_over_panel.visible   = false
 	_set_hud_visible(false)
 	event_banner.visible      = false
+	event_banner.modulate.a   = 0.0
 
 func setup_running_ui() -> void:
 	label_instruction.visible = false
 	_set_hud_visible(true)
 	event_banner.visible      = false
+	event_banner.modulate.a   = 0.0
+
+
+# ═══════════════════════════════════════════════════════════════
+#  HUD
+# ═══════════════════════════════════════════════════════════════
 
 func update_hud(day: int, player: Node) -> void:
 	label_day.text         = "Día %d / 30" % day
@@ -36,8 +73,6 @@ func update_economy(balance: float, inventory: int, remaining_debt: float) -> vo
 	balance_label.text   = "$%s" % _format_cop(int(balance))
 	inventory_label.text = "%d" % inventory
 	debt_label.text      = "Deuda: $%s" % _format_cop(int(max(0.0, remaining_debt)))
-
-	# Colorear la deuda según urgencia
 	if remaining_debt <= 300_000:
 		debt_label.add_theme_color_override("font_color", Color(0.247, 0.780, 0.373))
 	elif remaining_debt <= 800_000:
@@ -45,15 +80,136 @@ func update_economy(balance: float, inventory: int, remaining_debt: float) -> vo
 	else:
 		debt_label.add_theme_color_override("font_color", Color(0.753, 0.224, 0.169))
 
+
+# ═══════════════════════════════════════════════════════════════
+#  EVENT BANNER — cola + fade + scale Y (no toca offsets)
+# ═══════════════════════════════════════════════════════════════
+
 func show_event_banner(message: String) -> void:
-	event_banner_label.text = message
-	event_banner.visible    = true
-	await get_tree().create_timer(3.0).timeout
+	_banner_queue.push_back({"msg": message, "color": _color_for_message(message)})
+	if not _banner_busy:
+		_next_banner()
+
+func _next_banner() -> void:
+	if _banner_queue.is_empty():
+		_banner_busy = false
+		return
+	_banner_busy = true
+	var item  : Dictionary = _banner_queue.pop_front()
+	var msg   : String     = item["msg"]
+	var color : Color      = item["color"]
+
+	event_banner_label.text = msg
+	event_banner_label.add_theme_color_override("font_color", color)
+
+	# Resetear estado inicial antes de mostrar
+	event_banner.modulate.a  = 0.0
+	event_banner.scale       = Vector2(1.0, 0.3)
+	event_banner.pivot_offset = Vector2(event_banner.size.x * 0.5, event_banner.size.y)
+	event_banner.visible     = true
+
+	# ENTRADA: scale Y 0.3→1 + fade in
+	var tw_in := create_tween().set_parallel(true)
+	tw_in.tween_property(event_banner, "scale",      Vector2(1.0, 1.0), DUR_IN)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tw_in.tween_property(event_banner, "modulate:a", 1.0,               DUR_IN)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	await tw_in.finished
+
+	# ESPERA
+	await get_tree().create_timer(DUR_HOLD).timeout
+
+	# SALIDA: scale Y 1→0.3 + fade out
+	var tw_out := create_tween().set_parallel(true)
+	tw_out.tween_property(event_banner, "scale",      Vector2(1.0, 0.3), DUR_OUT)\
+		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tw_out.tween_property(event_banner, "modulate:a", 0.0,               DUR_OUT)\
+		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	await tw_out.finished
+
 	event_banner.visible = false
+	event_banner.scale   = Vector2(1.0, 1.0)   # restaurar para próxima vez
+	_next_banner()
+
+
+# ═══════════════════════════════════════════════════════════════
+#  GAME OVER — scale pop + blink + shake horizontal
+# ═══════════════════════════════════════════════════════════════
 
 func show_game_over(message: String = "GAME OVER") -> void:
-	label_game_over.text    = message
-	game_over_panel.visible = true
+	label_game_over.text = message
+	var is_victoria : bool  = message.contains("salvada") or message.contains("Victoria")
+	var title_color : Color = COLOR_INSP_OK if is_victoria else COLOR_MULTA
+	label_game_over.add_theme_color_override("font_color", title_color)
+
+	game_over_panel.visible    = true
+	game_over_panel.modulate.a = 0.0
+	game_over_panel.scale      = Vector2(0.0, 0.0)
+	restart_button.modulate.a  = 0.0
+
+	# Fase 1: pop in
+	var t1 := create_tween().set_parallel(true)
+	t1.tween_property(game_over_panel, "scale",      Vector2(1.08, 1.08), DUR_GO * 0.7)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	t1.tween_property(game_over_panel, "modulate:a", 1.0,                 DUR_GO * 0.6)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	await t1.finished
+
+	# Fase 2: rebote a 1.0
+	var t2 := create_tween()
+	t2.tween_property(game_over_panel, "scale", Vector2(1.0, 1.0), 0.15)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SPRING)
+	await t2.finished
+
+	# Fase 3 (derrota): parpadeo del título
+	if not is_victoria:
+		for _i in range(3):
+			var ta := create_tween()
+			ta.tween_property(label_game_over, "modulate", Color.WHITE, 0.07)
+			await ta.finished
+			var tb := create_tween()
+			tb.tween_property(label_game_over, "modulate", Color(title_color), 0.07)
+			await tb.finished
+		label_game_over.modulate = Color.WHITE
+
+	# Fase 4 (derrota): shake horizontal via offset_left
+	if not is_victoria:
+		var base : float = game_over_panel.offset_left   # −300
+		for i in range(10):
+			var amp : float = 8.0 * (1.0 - float(i) / 10.0)
+			var dir : float = 1.0 if i % 2 == 0 else -1.0
+			var ts  := create_tween()
+			ts.tween_property(game_over_panel, "offset_left", base + dir * amp, 0.035)
+			await ts.finished
+		var tr := create_tween()
+		tr.tween_property(game_over_panel, "offset_left", base, 0.05)
+		await tr.finished
+
+	# Fase 5: botón aparece
+	var t5 := create_tween()
+	t5.tween_property(restart_button, "modulate:a", 1.0, 0.30)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+
+
+# ═══════════════════════════════════════════════════════════════
+#  COLOR POR TIPO DE EVENTO
+# ═══════════════════════════════════════════════════════════════
+
+func _color_for_message(msg: String) -> Color:
+	if msg.contains("Venta")    or msg.contains("🛒"): return COLOR_VENTA
+	if msg.contains("Precio")   or msg.contains("📈"): return COLOR_PRECIO
+	if msg.contains("alimento") or msg.contains("🌽"): return COLOR_MAIZ
+	if msg.contains("Deuda")    or msg.contains("🏦"): return COLOR_BANQUERO
+	if msg.contains("Multa")    or msg.contains("🚨"): return COLOR_MULTA
+	if msg.contains("superada") or msg.contains("✅"): return COLOR_INSP_OK
+	if msg.contains("Vacunas")  or msg.contains("💊"): return COLOR_VACUNAS
+	if msg.contains("Vecino")   or msg.contains("😤"): return COLOR_VECINO
+	return COLOR_DEFAULT
+
+
+# ═══════════════════════════════════════════════════════════════
+#  HELPERS
+# ═══════════════════════════════════════════════════════════════
 
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
@@ -62,13 +218,12 @@ func _set_hud_visible(is_visible: bool) -> void:
 	$HUD.visible = is_visible
 
 func _format_cop(value: int) -> String:
-	# Formatea con puntos de miles: 1500000 → "1.500.000"
-	var string_val := str(abs(value))
-	var output     := ""
-	var count      := 0
-	for i in range(string_val.length() - 1, -1, -1):
-		if count > 0 and count % 3 == 0:
-			output = "." + output
-		output = string_val[i] + output
-		count += 1
-	return ("-" if value < 0 else "") + output
+	var s := str(abs(value))
+	var o := ""
+	var c := 0
+	for i in range(s.length() - 1, -1, -1):
+		if c > 0 and c % 3 == 0:
+			o = "." + o
+		o = s[i] + o
+		c += 1
+	return ("-" if value < 0 else "") + o
