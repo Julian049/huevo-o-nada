@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://geex1yai1fns"]
+
+[ext_resource type="Texture2D" uid="uid://cc1kfmo7edkwe" path="res://assets/story/story_01.png" id="1_mbdba"]
+[ext_resource type="Script" uid="uid://bmcuq28xdkumg" path="res://scripts/story_screen.gd" id="1_r0xdr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vw3oo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h7gs0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_478l6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yeoex"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_myajh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cruue"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2c2t0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7exs2"]
+
+[node name="StoryScreen_tscn" type="Node2D" unique_id=1653943751]
+script = ExtResource("1_r0xdr")
+
+[node name="StoryImage" type="TextureRect" parent="." unique_id=1992074131]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1153.0
+offset_bottom = 641.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mbdba")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NextButton" type="Button" parent="." unique_id=892582693]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1078.0
+offset_top = 550.0
+offset_right = 1192.917
+offset_bottom = 605.90485
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(-1.41, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vw3oo")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_h7gs0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_478l6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_yeoex")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_myajh")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_cruue")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2c2t0")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7exs2")

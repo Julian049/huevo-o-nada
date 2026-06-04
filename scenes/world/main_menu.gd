@@ -64,7 +64,7 @@ func _on_jugar() -> void:
 	get_tree().change_scene_to_file("res://scenes/world/main.tscn")
 
 func _on_historia() -> void:
-	pass
+	get_tree().change_scene_to_file("res://scenes/StoryScreen.tscn")
 
 func _on_instrucciones() -> void:
 	_cerrar_paneles()
