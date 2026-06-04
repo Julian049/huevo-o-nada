@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://b2n268843jdok" path="res://scenes/world/hen_manager.gd" id="6_6r0uj"]
 [ext_resource type="Script" uid="uid://be32vpjlxjweg" path="res://scripts/models/model5_economy.gd" id="7_m5eco"]
 [ext_resource type="Script" uid="uid://bpnjeeggjt0sq" path="res://scenes/world/map_background.gd" id="8_mapbg"]
+[ext_resource type="Script" uid="uid://b85f2nqhdwt2a" path="res://scripts/models/model2_abm.gd" id="9_abm2"]
 
 [node name="Main" type="Node2D" unique_id=1355193245]
 script = ExtResource("1_ig7tw")
@@ -62,86 +63,177 @@ script = ExtResource("4_wbupf")
 [node name="Model5Economy" type="Node" parent="." unique_id=1987589524]
 script = ExtResource("7_m5eco")
 
+[node name="Model2ABM" type="Node" parent="." unique_id=1001003000]
+script = ExtResource("9_abm2")
+
 [node name="HenManager" type="Node2D" parent="." unique_id=1792770548]
 script = ExtResource("6_6r0uj")
 
 [node name="UIManager" type="Node" parent="." unique_id=1460913075]
 script = ExtResource("5_tt8nk")
 
-[node name="LabelInstruction" type="Label" parent="UIManager" unique_id=1465220750]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -223.0
-offset_top = -251.0
-offset_right = 217.0
-offset_bottom = 211.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 0.973, 0.906, 1)
-theme_override_font_sizes/font_size = 20
-text = "HUEVO O NADA
- 
- [ESPACIO]  Iniciar simulacion
- [1]  Comprar vacuna  ($15.000)
- [2]  Comprar medicina  ($8.000)
- [3]  Avanzar al dia siguiente
- [4]  Comprar 3 gallinas  ($75.000)
- [Flechas / WASD]  Mover jugador"
-horizontal_alignment = 1
+[node name="BtnMenuIngame" type="Button" parent="UIManager" unique_id=1001004001]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -110.0
+offset_top = 2.0
+offset_right = -4.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.961, 0.773, 0.259, 1)
+theme_override_font_sizes/font_size = 13
+text = "⬅ Menú"
 
 [node name="HUD" type="PanelContainer" parent="UIManager" unique_id=1001001000]
+offset_top = 498.0
 offset_right = 1152.0
-offset_bottom = 46.0
+offset_bottom = 648.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UIManager/HUD" unique_id=1001001001]
 layout_mode = 2
-theme_override_constants/separation = 18
-alignment = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="LabelDay" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1240565066]
+[node name="DayBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010001]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelDayCaption" type="Label" parent="UIManager/HUD/HBoxContainer/DayBox" unique_id=1001010002]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "DÍA"
+horizontal_alignment = 1
+
+[node name="LabelDay" type="Label" parent="UIManager/HUD/HBoxContainer/DayBox" unique_id=1240565066]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.961, 0.773, 0.259, 1)
 theme_override_font_sizes/font_size = 18
-text = "Dia: 0 / 30"
+text = "0 / 30"
+horizontal_alignment = 1
 
-[node name="BalanceLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=586691413]
+[node name="BalanceBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010003]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelBalCaption" type="Label" parent="UIManager/HUD/HBoxContainer/BalanceBox" unique_id=1001010004]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "CAJA"
+horizontal_alignment = 1
+
+[node name="BalanceLabel" type="Label" parent="UIManager/HUD/HBoxContainer/BalanceBox" unique_id=586691413]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.647, 0.906, 0.647, 1)
 theme_override_font_sizes/font_size = 18
 text = "$1.000.000"
+horizontal_alignment = 1
 
-[node name="InventarioLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1075977496]
+[node name="DebtBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010005]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0.973, 0.906, 1)
-theme_override_font_sizes/font_size = 18
-text = "0 🥚"
+theme_override_constants/separation = 2
 
-[node name="DeudaLabel" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=1326804081]
+[node name="LabelDebtCaption" type="Label" parent="UIManager/HUD/HBoxContainer/DebtBox" unique_id=1001010006]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "DEUDA"
+horizontal_alignment = 1
+
+[node name="DeudaLabel" type="Label" parent="UIManager/HUD/HBoxContainer/DebtBox" unique_id=1326804081]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.753, 0.224, 0.169, 1)
 theme_override_font_sizes/font_size = 18
-text = "Deuda: $1.500.000"
+text = "$1.500.000"
+horizontal_alignment = 1
 
-[node name="LabelVaccines" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=616442839]
+[node name="EggBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010007]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelEggCaption" type="Label" parent="UIManager/HUD/HBoxContainer/EggBox" unique_id=1001010008]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "HUEVOS 🥚"
+horizontal_alignment = 1
+
+[node name="InventarioLabel" type="Label" parent="UIManager/HUD/HBoxContainer/EggBox" unique_id=1075977496]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.973, 0.906, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 1
+
+[node name="VaccineBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010009]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelVaccCaption" type="Label" parent="UIManager/HUD/HBoxContainer/VaccineBox" unique_id=1001010010]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "VACUNAS [1]"
+horizontal_alignment = 1
+
+[node name="LabelVaccines" type="Label" parent="UIManager/HUD/HBoxContainer/VaccineBox" unique_id=616442839]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.529, 0.808, 0.922, 1)
 theme_override_font_sizes/font_size = 18
 text = "💉 0"
+horizontal_alignment = 1
 
-[node name="LabelMedications" type="Label" parent="UIManager/HUD/HBoxContainer" unique_id=945294560]
+[node name="MedBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010011]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelMedCaption" type="Label" parent="UIManager/HUD/HBoxContainer/MedBox" unique_id=1001010012]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "MEDICINAS [2]"
+horizontal_alignment = 1
+
+[node name="LabelMedications" type="Label" parent="UIManager/HUD/HBoxContainer/MedBox" unique_id=945294560]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.529, 0.808, 0.922, 1)
 theme_override_font_sizes/font_size = 18
 text = "💊 0"
+horizontal_alignment = 1
+
+[node name="RodentBox" type="VBoxContainer" parent="UIManager/HUD/HBoxContainer" unique_id=1001010013]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelRodentCaption" type="Label" parent="UIManager/HUD/HBoxContainer/RodentBox" unique_id=1001010014]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "ROEDORES [5]"
+horizontal_alignment = 1
+
+[node name="RodentLabel" type="Label" parent="UIManager/HUD/HBoxContainer/RodentBox" unique_id=1001010015]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.780, 0.560, 0.247, 1)
+theme_override_font_sizes/font_size = 18
+text = "🐀 3  🪤 0"
+horizontal_alignment = 1
 
 [node name="EventBanner" type="PanelContainer" parent="UIManager" unique_id=158829034]
 visible = false
@@ -166,14 +258,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -100.0
+offset_top = -120.0
 offset_right = 300.0
-offset_bottom = 100.0
-pivot_offset = Vector2(300, 100)
+offset_bottom = 120.0
+pivot_offset = Vector2(300, 120)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIManager/GameOverPanel" unique_id=1001002001]
 layout_mode = 2
 alignment = 1
+theme_override_constants/separation = 10
 
 [node name="LabelGameOver" type="Label" parent="UIManager/GameOverPanel/VBoxContainer" unique_id=324029225]
 layout_mode = 2
@@ -185,6 +278,13 @@ horizontal_alignment = 1
 [node name="RestartButton" type="Button" parent="UIManager/GameOverPanel/VBoxContainer" unique_id=1564654663]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Reiniciar"
+text = "🔄 Reiniciar"
+
+[node name="MenuButton" type="Button" parent="UIManager/GameOverPanel/VBoxContainer" unique_id=1001002010]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "⬅ Volver al Menú"
 
 [connection signal="pressed" from="UIManager/GameOverPanel/VBoxContainer/RestartButton" to="UIManager" method="_on_restart_pressed"]
+[connection signal="pressed" from="UIManager/GameOverPanel/VBoxContainer/MenuButton" to="UIManager" method="_on_menu_pressed"]
+[connection signal="pressed" from="UIManager/BtnMenuIngame" to="UIManager" method="_on_btn_menu_ingame_pressed"]
