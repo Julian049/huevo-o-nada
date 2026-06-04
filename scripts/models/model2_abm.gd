@@ -14,6 +14,7 @@ extends Node
 # =====================================================================
 
 signal rodents_processed(report: Dictionary)
+signal roedor_capturado(pos: Vector2)  # Para el flash visual en TrapOverlay
 
 # --- PARÁMETROS DEL MODELO ---
 const N_INICIAL        : int   = 3      # Roedores al inicio de la partida
@@ -23,11 +24,12 @@ const RADIO_MOVIMIENTO : float = 80.0   # Píxeles por turno de movimiento
 const ALPHA_ROBO       : float = 0.25   # Huevos robados por roedor por turno (máx.)
 const P_CAP_BASE       : float = 0.25   # Probabilidad de captura por trampa
 
-# Límites del mapa (deben coincidir con los de hen.gd)
-const MAP_X_MIN : float = 50.0
-const MAP_X_MAX : float = 950.0
-const MAP_Y_MIN : float = 50.0
-const MAP_Y_MAX : float = 530.0
+# Límites reales del mapa (de map_background.gd)
+const MAP_X_MIN      : float = 8.0
+const MAP_X_MAX      : float = 1144.0
+# Roedores y trampas SOLO en la zona perimetral
+const MAP_Y_PERIM_START : float = 374.0   # Y_FEED_END + margen
+const MAP_Y_PERIM_END   : float = 492.0   # Y_PERIM_END - margen
 
 # --- ESTRUCTURA DE UN AGENTE ROEDOR ---
 # Cada roedor es un Dictionary con los campos:
@@ -85,6 +87,7 @@ func simulate_turn(huevos_disponibles: int, dia_actual: int) -> int:
 				if randf() < P_CAP_BASE:
 					roedor["vivo"] = false
 					print("[Modelo 2] Roedor #%d capturado por trampa." % roedor["id"])
+					emit_signal("roedor_capturado", Vector2(roedor["pos_x"], roedor["pos_y"]))
 					break  # Evitar doble captura
 
 	# 2. Eliminar roedores muertos de la colonia
@@ -127,8 +130,8 @@ func simulate_turn(huevos_disponibles: int, dia_actual: int) -> int:
 # =====================================================================
 func colocar_trampa() -> void:
 	var trampa := {
-		"pos_x": randf_range(MAP_X_MIN + 20.0, MAP_X_MAX - 20.0),
-		"pos_y": randf_range(MAP_Y_MIN + 20.0, MAP_Y_MAX - 20.0)
+		"pos_x": randf_range(MAP_X_MIN + 40.0, MAP_X_MAX - 40.0),
+		"pos_y": randf_range(MAP_Y_PERIM_START, MAP_Y_PERIM_END)
 	}
 	trampas.append(trampa)
 	print("[Modelo 2] Trampa colocada en (%.0f, %.0f). Total trampas: %d" % [
@@ -187,26 +190,23 @@ func _spawn_roedores(n: int) -> void:
 		colonia.append(roedor)
 		_next_id += 1
 
-# Los roedores aparecen desde los bordes verticales del mapa
+# Los roedores aparecen distribuidos en la zona perimetral
 func _elegir_borde_y() -> float:
-	if randf() < 0.5:
-		return MAP_Y_MIN + randf_range(0.0, 30.0)
-	else:
-		return MAP_Y_MAX - randf_range(0.0, 30.0)
+	return randf_range(MAP_Y_PERIM_START, MAP_Y_PERIM_END)
 
 # Mueve al roedor en dirección al centro del mapa (donde están las gallinas)
 func _mover_roedor(roedor: Dictionary) -> void:
 	var centro_x : float = (MAP_X_MIN + MAP_X_MAX) / 2.0
-	var centro_y : float = (MAP_Y_MIN + MAP_Y_MAX) / 2.0
+	var centro_y : float = (MAP_Y_PERIM_START + MAP_Y_PERIM_END) / 2.0
 	var dx : float = centro_x - roedor["pos_x"]
 	var dy : float = centro_y - roedor["pos_y"]
 	var dist : float = sqrt(dx * dx + dy * dy)
 	if dist > 1.0:
 		roedor["pos_x"] += (dx / dist) * RADIO_MOVIMIENTO * randf_range(0.5, 1.0)
 		roedor["pos_y"] += (dy / dist) * RADIO_MOVIMIENTO * randf_range(0.5, 1.0)
-	# Mantener dentro del mapa
+	# Mantener dentro de la zona perimetral
 	roedor["pos_x"] = clamp(roedor["pos_x"], MAP_X_MIN, MAP_X_MAX)
-	roedor["pos_y"] = clamp(roedor["pos_y"], MAP_Y_MIN, MAP_Y_MAX)
+	roedor["pos_y"] = clamp(roedor["pos_y"], MAP_Y_PERIM_START, MAP_Y_PERIM_END)
 
 # Cuenta roedores vivos en la colonia
 func _contar_vivos() -> int:

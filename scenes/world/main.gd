@@ -8,6 +8,7 @@ extends Node2D
 @onready var hen_manager    : Node = $HenManager
 @onready var model5_economy : Node = $Model5Economy
 @onready var model2_abm     : Node = $Model2ABM
+@onready var trap_overlay    : Node2D = $TrapOverlay
 
 const MAX_DAYS        : int = 30
 const NUMBER_OF_HENS  : int = 3
@@ -40,8 +41,9 @@ func _ready() -> void:
 	model5_economy.balance_actualizado.connect(_on_balance_actualizado)
 	model5_economy.game_over.connect(_on_economy_game_over)
 
-	# Señal de roedores para el banner
+	# Señal de roedores para el banner y overlay visual
 	model2_abm.rodents_processed.connect(_on_rodents_processed)
+	model2_abm.roedor_capturado.connect(_on_roedor_capturado)
 
 	player.set_physics_process(false)
 	player.set_process(false)
@@ -72,6 +74,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_5:  # Colocar trampa para roedores ($20.000)
 				if model5_economy.comprar_item(20000.0):
 					model2_abm.colocar_trampa()
+					trap_overlay.refresh(model2_abm.trampas, model2_abm.colonia)
+					ui_manager.update_rodents(model2_abm._contar_vivos(), model2_abm.trampas.size())
 					ui_manager.show_event_banner("🪤 Trampa colocada ($20.000)")
 
 func _start_game() -> void:
@@ -104,6 +108,7 @@ func _on_day_processed(report: Dictionary) -> void:
 	var produccion : int = _calcular_produccion()
 	var robos      : int = model2_abm.simulate_turn(produccion, day)
 	ui_manager.update_rodents(model2_abm._contar_vivos(), model2_abm.trampas.size())
+	trap_overlay.refresh(model2_abm.trampas, model2_abm.colonia)
 
 	# Modelo 5 — economía
 	model5_economy.process_day(
@@ -160,6 +165,9 @@ func _on_rodents_processed(report: Dictionary) -> void:
 		ui_manager.show_event_banner("🐀 ¡Colonia crítica! " + str(report["roedores_vivos"]) + " roedores. [5] trampa")
 	elif report["huevos_robados"] > 0:
 		ui_manager.show_event_banner("🐀 Roedores robaron " + str(report["huevos_robados"]) + " huevo(s)")
+
+func _on_roedor_capturado(pos: Vector2) -> void:
+	trap_overlay.flash_captura(pos)
 
 func _on_economy_game_over(tipo: String) -> void:
 	is_running = false

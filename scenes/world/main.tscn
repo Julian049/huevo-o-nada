@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://be32vpjlxjweg" path="res://scripts/models/model5_economy.gd" id="7_m5eco"]
 [ext_resource type="Script" uid="uid://bpnjeeggjt0sq" path="res://scenes/world/map_background.gd" id="8_mapbg"]
 [ext_resource type="Script" uid="uid://b85f2nqhdwt2a" path="res://scripts/models/model2_abm.gd" id="9_abm2"]
+[ext_resource type="Script" path="res://scenes/world/trap_overlay.gd" id="10_trapov"]
 
 [node name="Main" type="Node2D" unique_id=1355193245]
 script = ExtResource("1_ig7tw")
@@ -16,6 +17,9 @@ script = ExtResource("1_ig7tw")
 [node name="MapBackground" type="Node2D" parent="." unique_id=1001000001]
 z_index = -10
 script = ExtResource("8_mapbg")
+
+[node name="TrapOverlay" type="Node2D" parent="." unique_id=1001000010]
+script = ExtResource("10_trapov")
 
 [node name="ZonaCielo" type="ColorRect" parent="." unique_id=1001000002]
 z_index = -9
