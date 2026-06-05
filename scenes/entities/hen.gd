@@ -5,9 +5,9 @@ enum State { HEALTHY, SICK, RECOVERED, DEAD }
 
 # Colores originales del equipo
 const COLOR_SANA       := Color(0.961, 0.773, 0.259)   # amarillo/dorado
-const COLOR_ENFERMA    := Color(0.478, 0.549, 0.416)   # verde oscuro
-const COLOR_RECUPERADA := Color(0.400, 0.700, 1.000)   # AZUL (original del equipo)
-const COLOR_MUERTA     := Color(0.290, 0.290, 0.290)   # gris
+const COLOR_ENFERMA    := Color(0.0, 1.0, 0.0)   # verde oscuro
+const COLOR_RECUPERADA := Color(0.0, 0.0, 1.0)   # AZUL (original del equipo)
+const COLOR_MUERTA     := Color(1.0, 0.0, 0.0)   # gris
 
 var current_state : int = State.HEALTHY
 @onready var sprite = $AnimatedSprite2D
